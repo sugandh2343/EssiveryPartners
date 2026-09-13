@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Essivery\Partner\Services;
 
 use Essivery\Api\Core\ApiException;
+use Essivery\Api\Core\Env;
 
 final class PartnerBankEncryption
 {
@@ -12,7 +13,7 @@ final class PartnerBankEncryption
     public function __construct(?string $secret=null)
     {
         if(!function_exists('openssl_encrypt')||!function_exists('openssl_decrypt'))$this->unavailable();
-        $secret=$secret??getenv('PARTNER_BANK_ENCRYPTION_KEY')?:'';
+        $secret=$secret??Env::get('PARTNER_BANK_ENCRYPTION_KEY');
         if(strlen($secret)<32)$this->unavailable();
         $this->key=hash('sha256',$secret,true);
     }

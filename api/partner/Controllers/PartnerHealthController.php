@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Essivery\Partner\Controllers;
 
+use Essivery\Api\Core\Env;
 use Essivery\Api\Core\Request;
 use Essivery\Api\Core\Response;
 
 final class PartnerHealthController
 {
-    private const BUILD = '2026.09.13-bank-hotfix.1';
+    private const BUILD = '2026.09.13-bank-env-loader-hotfix.2';
 
     public function __construct(array $container)
     {
@@ -16,7 +17,7 @@ final class PartnerHealthController
 
     public function show(Request $request): never
     {
-        $bankSecret = (string) getenv('PARTNER_BANK_ENCRYPTION_KEY');
+        $bankSecret = Env::get('PARTNER_BANK_ENCRYPTION_KEY');
         Response::success([
             'service' => 'essivery-partner-api',
             'status' => 'ok',
