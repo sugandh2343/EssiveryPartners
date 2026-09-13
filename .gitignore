@@ -1,0 +1,33 @@
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Dependencies and generated frontend output
+node_modules/
+dist/
+dist-ssr/
+
+# Runtime files
+*.log
+logs/
+coverage/
+.cache/
+
+# Private uploaded documents
+api/partner/storage/private/documents/
+
+# Local release archives
+releases/
+*.zip
+
+# Editors and operating systems
+.idea/
+.vscode/
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+

@@ -1,0 +1,4 @@
+<?php
+declare(strict_types=1);namespace Essivery\Partner\Middleware;
+use Essivery\Api\Core\Request;use Essivery\Partner\Services\PartnerSetupService;
+final class SetupMutabilityMiddleware{public function __construct(private array$c){}public function handle(Request$r,callable$n):mixed{$map=['/setup/personal'=>'personal','/setup/business'=>'business','/setup/location'=>'location','/setup/hours'=>'hours','/setup/operations'=>'operations','/setup/documents'=>'documents','/setup/bank'=>'bank','/setup/bank/proof'=>'bank','/setup/retail'=>'retail_setup','/setup/restaurant'=>'restaurant_setup','/setup/home-service'=>'home_service_setup','/setup/delivery'=>'delivery_setup'];$step=$map[$r->path]??null;if($step){$pdo=$this->c['database']->connection();$defs=$this->c['partner']['setup']??require dirname(__DIR__).'/config/setup.php';(new PartnerSetupService($pdo,$defs))->assertMutable($r->attributes['partnerContext'],$step);}return$n($r);}}
