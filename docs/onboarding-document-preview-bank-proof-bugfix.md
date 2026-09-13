@@ -52,6 +52,7 @@ Do not combine the new `index.html` with an older hashed JavaScript bundle. The 
 ## Required production configuration
 
 - Keep `PARTNER_BANK_ENCRYPTION_KEY` configured with the existing production key. Changing it makes existing encrypted account numbers unreadable.
+- The Partner entry point loads the shared User API environment (normally `public_html/api/user/.env`), not a frontend `.env`. Add the key there as `PARTNER_BANK_ENCRYPTION_KEY=<stable random value of at least 32 characters>` and do not place it in the GitHub repository.
 - Keep `ESSIVERY_PARTNER_DOCUMENT_STORAGE` pointed at a persistent, writable, non-public directory, or use the protected fallback already supplied by Phase 4A.
 - PHP `fileinfo` must be enabled.
 - `upload_max_filesize` and `post_max_size` must allow a 5 MB document plus multipart overhead.
