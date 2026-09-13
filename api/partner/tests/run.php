@@ -534,6 +534,7 @@ namespace {
     $deliveryRequestMiddleware=file_get_contents($root.'/Middleware/DeliverySetupRequestMiddleware.php');$assert(str_contains($deliveryRequestMiddleware,"['vehicleType','vehicleRegistrationNumber','vehicleOwnership','confirmed']")&&!str_contains($deliveryRequestMiddleware,"'deliveryPartnerId'")&&!str_contains($deliveryRequestMiddleware,"'isOnline'"),'Delivery request allowlist permits protected fields');
     $assert(str_contains($routes, 'RequireIdempotencyKeyMiddleware'), 'Bootstrap idempotency key is not enforced');
     $assert(str_contains($routes,'SetupMutabilityMiddleware::class'),'Central setup mutation guard is not attached');
+    $healthController=file_get_contents($root.'/Controllers/PartnerHealthController.php');foreach(['2026.09.13-bank-hotfix.1','bankEncryptionConfigured','openssl_encrypt','openssl_decrypt']as$token)$assert(str_contains($healthController,$token),"Partner health readiness missing $token");
 
     $repository = file_get_contents($root . '/Repositories/PartnerContextRepository.php');
     $assert(str_contains($repository, "assertCanonicalTable('partners'"), 'Business canonical schema guard missing');
