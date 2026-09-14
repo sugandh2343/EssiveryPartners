@@ -8,7 +8,15 @@ import {
 
 import { useNavigate } from 'react-router-dom'
 import { partnerApi } from '../api/client'
+import { MEDIA_BASE_URL } from '../config/api'
 import { usePartnerSelection } from '../context/PartnerSelectionContext'
+
+function mediaUrl(value) {
+  if (!value) return null
+  if (/^https?:\/\//i.test(value)) return value
+  const path = String(value).replace(/^\/+/, '').replace(/^api\//i, '')
+  return `${MEDIA_BASE_URL}/${path}`
+}
 
 function ChoosePartnerPage() {
   const [categories, setCategories] = useState([])
@@ -48,7 +56,7 @@ function ChoosePartnerPage() {
       public_id: category.public_id,
       name: category.name,
       slug: category.slug,
-      image: category.image,
+      image: mediaUrl(category?.image),
       type: 'business',
     })
 
@@ -130,7 +138,7 @@ function ChoosePartnerPage() {
               <PartnerChoiceCard
                 key={category.id}
                 name={category.name}
-                image={category.image}
+                image={mediaUrl(category?.image)}
                 onClick={() => chooseCategory(category)}
               />
             ))}
@@ -194,7 +202,7 @@ function PartnerChoiceCard({
             event.currentTarget.onerror = null
             event.currentTarget.src = defaultImage
           }}
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
         />
 
       </div>

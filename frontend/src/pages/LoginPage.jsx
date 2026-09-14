@@ -19,7 +19,6 @@ import {
   ArrowLeft,
   ArrowRight,
   Bike,
-  KeyRound,
   Loader2,
   Smartphone,
   Store,
@@ -38,6 +37,7 @@ import {
 } from '../services/auth/partnerAuthService'
 import { referralStateService } from '../services/referral/referralStateService'
 import { usePartnerSession } from '../context/PartnerSessionContext'
+import OtpInput from 'react-otp-input'
 
 function LoginPage() {
   const navigate = useNavigate()
@@ -407,32 +407,23 @@ const [error, setError] =
     </label>
 
 
-    <div className="mt-2 flex items-center rounded-2xl border border-slate-300">
-
-      <KeyRound
-        size={19}
-        className="ml-4 text-slate-400"
-      />
-
-      <input
-        type="text"
-        inputMode="numeric"
-        autoComplete="one-time-code"
-        maxLength={6}
+    <div className="mt-2 px-1 py-1">
+      <OtpInput
         value={otp}
-        autoFocus
-        onChange={(event) =>
-          setOtp(
-            event.target.value.replace(
-              /\D/g,
-              ''
-            )
-          )
-        }
-        placeholder="Enter 6 digit OTP"
-        className="w-full px-4 py-4 text-center text-xl font-black tracking-[0.4em] outline-none"
+        onChange={(value) => setOtp(value?.replace(/\D/g, ''))}
+        numInputs={6}
+        shouldAutoFocus
+        inputType="tel"
+        containerStyle="flex w-full justify-between gap-2"
+        renderInput={(props) => (
+          <input
+            {...props}
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            className="h-12 min-w-0 flex-1 rounded-xl border border-slate-300 bg-slate-50 text-center text-xl font-black text-slate-950 outline-none transition focus:border-slate-950 focus:bg-white"
+          />
+        )}
       />
-
     </div>
 
 
@@ -517,7 +508,7 @@ function PartnerIcon({ partner }) {
       <img
         src={partner.image}
         alt={partner.name}
-        className="h-12 w-12 rounded-xl object-cover"
+        className="h-12 w-12 rounded-xl bg-slate-100 object-contain p-1"
         onError={(event) => {
           event.currentTarget.style.display = 'none'
         }}

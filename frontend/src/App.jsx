@@ -25,6 +25,7 @@ import HomeServiceSetupPage from './pages/HomeServiceSetupPage'
 import DeliverySetupPage from './pages/DeliverySetupPage'
 import ReviewSubmitPage from './pages/ReviewSubmitPage'
 import ReferralRegistrationPage from './pages/ReferralRegistrationPage'
+import ModulePlaceholderPage from './pages/ModulePlaceholderPage'
 
 function App() {
   return (
@@ -55,6 +56,10 @@ function App() {
         />
 
         <Route path="/dashboard" element={<ProtectedPartnerRoute><DashboardPage /></ProtectedPartnerRoute>} />
+        <Route path="/catalogue" element={<ProtectedPartnerRoute><ModulePlaceholderPage /></ProtectedPartnerRoute>} />
+        <Route path="/inventory" element={<ProtectedPartnerRoute><ModulePlaceholderPage /></ProtectedPartnerRoute>} />
+        <Route path="/orders" element={<ProtectedPartnerRoute><ModulePlaceholderPage /></ProtectedPartnerRoute>} />
+        <Route path="/wallet" element={<ProtectedPartnerRoute><ModulePlaceholderPage /></ProtectedPartnerRoute>} />
         <Route path="/setup" element={<ProtectedPartnerRoute><SetupCenterPage /></ProtectedPartnerRoute>} />
         <Route path="/setup/personal" element={<ProtectedPartnerRoute><PersonalDetailsPage /></ProtectedPartnerRoute>} />
         <Route path="/setup/business" element={<ProtectedPartnerRoute><BusinessDetailsPage /></ProtectedPartnerRoute>} />

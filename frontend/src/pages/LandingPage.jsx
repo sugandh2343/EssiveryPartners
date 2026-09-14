@@ -470,7 +470,7 @@ function CategoryCard({ category, onClick }) {
     event.currentTarget.onerror = null
     event.currentTarget.src = defaultImage
   }}
-  className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+  className="h-full w-full object-contain transition duration-500 group-hover:scale-110"
 />
       </div>
 
