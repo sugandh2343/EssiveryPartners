@@ -9,7 +9,7 @@ use Essivery\Api\Core\Response;
 
 final class PartnerHealthController
 {
-    private const BUILD = '2026.09.13-bank-env-loader-hotfix.2';
+    private const BUILD = '2026.09.14-document-preview-hotfix.3';
 
     public function __construct(array $container)
     {

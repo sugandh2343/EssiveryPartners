@@ -16,7 +16,7 @@ namespace Essivery\Api\Core {
     }
     final class Helpers
     {
-        public static function publicId(string $prefix): string { return $prefix . '_' . bin2hex(random_bytes(16)); }
+        public static function publicId(string $prefix): string { return $prefix . '_' . bin2hex(random_bytes(12)); }
     }
 }
 
@@ -534,7 +534,7 @@ namespace {
     $deliveryRequestMiddleware=file_get_contents($root.'/Middleware/DeliverySetupRequestMiddleware.php');$assert(str_contains($deliveryRequestMiddleware,"['vehicleType','vehicleRegistrationNumber','vehicleOwnership','confirmed']")&&!str_contains($deliveryRequestMiddleware,"'deliveryPartnerId'")&&!str_contains($deliveryRequestMiddleware,"'isOnline'"),'Delivery request allowlist permits protected fields');
     $assert(str_contains($routes, 'RequireIdempotencyKeyMiddleware'), 'Bootstrap idempotency key is not enforced');
     $assert(str_contains($routes,'SetupMutabilityMiddleware::class'),'Central setup mutation guard is not attached');
-    $healthController=file_get_contents($root.'/Controllers/PartnerHealthController.php');foreach(['2026.09.13-bank-env-loader-hotfix.2','Env::get','bankEncryptionConfigured','openssl_encrypt','openssl_decrypt']as$token)$assert(str_contains($healthController,$token),"Partner health readiness missing $token");
+    $healthController=file_get_contents($root.'/Controllers/PartnerHealthController.php');foreach(['2026.09.14-document-preview-hotfix.3','Env::get','bankEncryptionConfigured','openssl_encrypt','openssl_decrypt']as$token)$assert(str_contains($healthController,$token),"Partner health readiness missing $token");
 
     $repository = file_get_contents($root . '/Repositories/PartnerContextRepository.php');
     $assert(str_contains($repository, "assertCanonicalTable('partners'"), 'Business canonical schema guard missing');
@@ -633,6 +633,7 @@ namespace {
     $assert(!str_contains($idempotencyRequirement,'$request->body'),'Idempotency middleware still rejects valid mutation bodies');
     $assert(str_contains($emptyBodyRequirement,'$request->body !== []')&&str_contains($emptyBodyRequirement,"'/me/bootstrap'")&&str_contains($emptyBodyRequirement,"'/setup/bootstrap'")&&str_contains($emptyBodyRequirement,'!in_array($request->path')&&substr_count($routes,'EmptyBodyRequestMiddleware::class')===2,'Bootstrap empty-body protection is not isolated to both bootstrap routes');
     $bankEncryptionSource=file_get_contents($root.'/Services/PartnerBankEncryption.php');$assert(str_contains($bankEncryptionSource,"Env::get('PARTNER_BANK_ENCRYPTION_KEY')")&&!str_contains($bankEncryptionSource,"getenv('PARTNER_BANK_ENCRYPTION_KEY')"),'Bank encryption bypasses the shared .env loader');
+    $documentConfigSource=file_get_contents($root.'/config/documents.php');$assert(str_contains($documentConfigSource,"Env::get('ESSIVERY_PARTNER_DOCUMENT_STORAGE')")&&!str_contains($documentConfigSource,"getenv('ESSIVERY_PARTNER_DOCUMENT_STORAGE')"),'Document storage bypasses the shared .env loader');
     $bankRepository=file_get_contents($root.'/Repositories/PartnerBankAccountRepository.php');$assert(!preg_match('/wallet|ledger|settlement|payout/i',$bankRepository),'Bank repository crosses commercial boundaries');
     $bankController=file_get_contents($root.'/Controllers/PartnerBankController.php');foreach(['last4','ifsc','reviewState']as$safe)$assert(str_contains($bankController,$safe),"Bank audit missing $safe");foreach(['accountNumber','confirmAccountNumber','account_number_encrypted']as$secret)$assert(!str_contains($bankController,$secret),"Bank audit may expose $secret");
     $retailPage=file_get_contents($frontendRoot.'/pages/RetailSetupPage.jsx');foreach(['Retail Store Setup','My Store Category',"I'll add products myself",'I need Essivery assistance','Product catalogue setup comes next','beforeunload']as$token)$assert(str_contains($retailPage,$token),"Retail UI missing $token");$assert(str_contains($app,'path="/setup/retail"')&&str_contains($setupService,"put('/setup/retail'"),'Retail frontend route/service missing');
