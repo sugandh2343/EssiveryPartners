@@ -132,7 +132,7 @@ export default function DashboardPage() {
   const [ordersReload, setOrdersReload] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);
   const [orderDialog, setOrderDialog] = useState(null);
-  const [notificationCount, setNotificationCount] = useState(0);
+  const [notificationCount, setNotificationCount] = useState(4);
   const [storeOnline, setStoreOnline] = useState(() =>
     ["online", "open", "accepting_orders"].includes(
       String(context?.partner?.operationalStatus || "").toLowerCase(),
@@ -247,7 +247,7 @@ export default function DashboardPage() {
               {category} Partner
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
            
             <button
               className="relative grid h-10 w-10 place-items-center rounded-full border border-slate-200 bg-white"
@@ -260,8 +260,8 @@ export default function DashboardPage() {
               <Bell size={18} />
 
               {notificationCount > 0 && (
-                <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white">
-                  {notificationCount > 99 ? "99+" : notificationCount}
+                <span className="absolute -right-1 -top-1 grid h-5 min-w-5 animate-bounce place-items-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white">
+                  {notificationCount}
                 </span>
               )}
             </button>
