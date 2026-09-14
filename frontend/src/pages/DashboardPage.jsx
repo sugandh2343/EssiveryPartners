@@ -132,7 +132,7 @@ export default function DashboardPage() {
   const [ordersReload, setOrdersReload] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);
   const [orderDialog, setOrderDialog] = useState(null);
-  const [notificationCount, setNotificationCount] = useState(4);
+  const [notificationCount, setNotificationCount] = useState(0);
   const [storeOnline, setStoreOnline] = useState(() =>
     ["online", "open", "accepting_orders"].includes(
       String(context?.partner?.operationalStatus || "").toLowerCase(),
